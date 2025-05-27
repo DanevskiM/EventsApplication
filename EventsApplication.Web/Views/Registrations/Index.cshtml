@@ -1,0 +1,60 @@
+﻿@model IEnumerable<EventsApplication.Domain.DomainModels.Registration>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<!-- TODO: Add CreateSchedule button -->
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attendee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Owner)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Attendee.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Owner.FullName)
+                </td>
+                <td>
+                    <!-- TODO: Add Delete Button -->
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
