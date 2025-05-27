@@ -52,8 +52,12 @@ namespace EventsApplication.Service.Implementation
 
         public Registration DeleteById(Guid id)
         {
-            // TODO: Implement method
-            throw new NotImplementedException();
+            var registration = GetById(id);
+            if (registration == null)
+            {
+                throw new Exception("Registration not found");
+            }
+            return _registrationRepository.Delete(registration);
         }
 
         public Registration RegisterAttendeeOnEvent(string userId, Guid attendeeId, Guid eventId, string paymentStatus)
