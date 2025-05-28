@@ -13,11 +13,20 @@ namespace EventsApplication.Service.Implementation
         {
             _scheduleRepository = scheduleRepository;
         }
-        public Schedule? GetScheduleDetails(Guid id)
+        public Schedule GetScheduleDetails(Guid id)
         {
-            // TODO: implement method
-
-            throw new NotImplementedException();
+            var schedule = _scheduleRepository.Get(
+            selector: x => x,
+            predicate: x => x.Id == id,
+            include: x => x
+            .Include(s => s.EventInSchedules)
+            .ThenInclude(eis => eis.Event)
+            );
+            if (schedule == null)
+            {
+                throw new Exception("Schedule not found");
+            }
+            return schedule;
         }
     }
 }

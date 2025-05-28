@@ -1,4 +1,5 @@
-﻿using EventsApplication.Service.Interface;
+﻿using EventsApplication.Domain.DomainModels;
+using EventsApplication.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventsApplication.Web.Controllers
@@ -16,9 +17,16 @@ namespace EventsApplication.Web.Controllers
 
         public IActionResult Details(Guid id)
         {
-            // TODO: Implement method
-            // Create ViewModel with TotalPrice or pass it through ViewBag/ViewData
-            throw new NotImplementedException();
+            var schedule = _scheduleService.GetScheduleDetails(id);
+            if (schedule == null)
+                return NotFound();
+            var totalPrice = schedule.EventInSchedules != null
+                ? schedule.EventInSchedules
+                    .Where(eis => eis.Event != null)
+                    .Sum(eis => eis.Event.Price)
+                : 0;
+            ViewBag.TotalPrice = totalPrice;
+            return View(schedule);
         }
     }
 }

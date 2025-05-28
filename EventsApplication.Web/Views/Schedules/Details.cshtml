@@ -7,15 +7,29 @@
 <h1>Details</h1>
 <h4>Schedule</h4>
 
-<!-- TODO: Create Table for Schedule -->
 <table class="table">
-    <!-- Look at the table from any Index page for help -->
-    <!-- Iterate throught Model.EventsInSchedule -->
-    <!-- Display: Event Date, Event Title, Event Location, Event Price -->
+    <thead>
+        <tr>
+            <th>Event Date</th>
+            <th>Event Title</th>
+            <th>Event Location</th>
+            <th>Event Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.EventInSchedules)
+        {
+            <tr>
+                <td>@item.Event.Date</td>
+                <td>@item.Event.Title</td>
+                <td>@item.Event.Location</td>
+                <td>@item.Event.Price</td>
+            </tr>
+        }
+    </tbody>
 </table>
 
-
-<!-- TODO: Display Total Price -->
 <div>
     <p>Total Price: </p>
+    @Model.EventInSchedules.Sum(x => x.Quantity)
 </div>

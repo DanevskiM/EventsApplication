@@ -82,16 +82,37 @@ namespace EventsApplication.Service.Implementation
 
         public Schedule CreateSchedule(string userId)
         {
-            // TODO: Implement method
-            // Hint: Look at OrderProducts method in auditory exercises
-
-            // Get all registrations by current user
-            // Create new schedule and insert in database
-            // Create new events in schedule and insert in database
-            // Delete all registratons
-            // Return schedule
-
-            throw new NotImplementedException();
+            var userRegistration = _registrationRepository
+                .GetAll(
+                    selector: x => x,
+                    predicate: x => x.OwnerId == userId
+                ).ToList();
+            if (!userRegistration.Any())
+                return null;
+            var newSchedule = new Schedule
+            {
+                Id = Guid.NewGuid(),
+                UserId = userId,
+                EventInSchedules = new List<EventInSchedule>()
+            };
+            _scheduleRepository.Insert(newSchedule);
+            foreach(var registration in userRegistration)
+            {
+                var eventInSchedule = new EventInSchedule
+                {
+                    Id=Guid.NewGuid(),
+                    EventId=registration.Id,
+                    ScheduleId=newSchedule.Id,
+                    Quantity=1
+                };
+                _eventsInScheduleRepository.Insert(eventInSchedule);
+                newSchedule.EventInSchedules.Add(eventInSchedule);
+            }
+            foreach (var r in userRegistration)
+            {
+                _registrationRepository.Delete(r);
+            }
+            return newSchedule;
         }
     }
 }

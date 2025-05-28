@@ -51,8 +51,12 @@ namespace EventsApplication.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(Guid id)
         {
-            // TODO: Implement method
-            throw new NotImplementedException();
+            var registration = _regisrationService.GetById(id);
+            if (registration != null)
+            {
+                _regisrationService.DeleteById(id);
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Registrations/CreateSchedule
@@ -63,7 +67,11 @@ namespace EventsApplication.Web.Controllers
         {
             // TODO: Implement method
             // Find current user, call service method, redirect to details in schedules controller
-            throw new NotImplementedException();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+            var newSchedule = _regisrationService.CreateSchedule(userId);
+            return RedirectToAction("Details", "Schedules", new { id = newSchedule.Id });
         }
     }
 }

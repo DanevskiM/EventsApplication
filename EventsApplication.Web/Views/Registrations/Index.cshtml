@@ -5,10 +5,9 @@
 }
 
 <h1>Index</h1>
-
-<!-- TODO: Add CreateSchedule button -->
-
-
+<form asp-action="CreateSchedule" method="post">
+    <button type="submit" class="btn btn-primary">Create Schedule</button>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -50,9 +49,9 @@
                     @Html.DisplayFor(modelItem => item.Owner.FullName)
                 </td>
                 <td>
-                    <!-- TODO: Add Delete Button -->
-
-
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Are you sure?');" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
         }
